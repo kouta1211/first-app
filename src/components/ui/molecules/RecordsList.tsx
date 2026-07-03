@@ -8,7 +8,6 @@ type Props = {
 export const RecordList = ({ records }: Props) => {
   return (
     <>
-      <h1>学習記録アプリ</h1>
       <Table.Root size="sm">
         <Table.Header>
           <Table.Row>

@@ -11,5 +11,10 @@ export const App = () => {
     getRecords();
   }, [getRecords]);
 
-  return <>{loading ? <Loading /> : <RecordList records={records} />}</>;
+  return (
+    <>
+      <h1>学習記録アプリ</h1>
+      {loading ? <Loading /> : <RecordList records={records} />}
+    </>
+  );
 };
