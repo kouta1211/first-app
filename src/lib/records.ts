@@ -14,3 +14,22 @@ export async function GetAllRecords(): Promise<Record[]> {
 
   return recordsData;
 }
+
+export async function CreateRecord(title: string, time: number): Promise<void> {
+  const { error } = await supabase.from('study_records').insert({
+    title,
+    time,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function DeleteRecord(id: number): Promise<void> {
+  const { error } = await supabase.from('study_records').delete().eq('id', id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
