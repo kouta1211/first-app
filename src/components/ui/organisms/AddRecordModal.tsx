@@ -1,6 +1,14 @@
 import { useMessage } from '@/hooks/useMessage';
 import { CreateRecord } from '@/lib/records';
-import { Button, Dialog, Field, Input, Portal, Text } from '@chakra-ui/react';
+import {
+  Button,
+  CloseButton,
+  Dialog,
+  Field,
+  Input,
+  Portal,
+  Text,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -44,7 +52,7 @@ export const AddRecordModal = ({ onSuccess }: Props) => {
   return (
     <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button data-testid="add_button" variant="outline" size="sm">
           追加
         </Button>
       </Dialog.Trigger>
@@ -88,6 +96,9 @@ export const AddRecordModal = ({ onSuccess }: Props) => {
                 <Button type="submit">登録</Button>
               </Dialog.Footer>
             </form>
+            <Dialog.CloseTrigger asChild>
+              <CloseButton size="sm" />
+            </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>
