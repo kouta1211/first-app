@@ -12,6 +12,9 @@ export const RecordList = ({ records, onSuccess }: Props) => {
     await DeleteRecord(id);
     onSuccess();
   };
+  const handleEdit = async () => {
+    onSuccess();
+  };
   return (
     <>
       <Table.Root size="sm" data-testid="table">
@@ -19,6 +22,7 @@ export const RecordList = ({ records, onSuccess }: Props) => {
           <Table.Row>
             <Table.ColumnHeader>Title</Table.ColumnHeader>
             <Table.ColumnHeader>Time</Table.ColumnHeader>
+            <Table.ColumnHeader>Edit</Table.ColumnHeader>
             <Table.ColumnHeader>Delete</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
@@ -27,7 +31,19 @@ export const RecordList = ({ records, onSuccess }: Props) => {
             <Table.Row key={record.id}>
               <Table.Cell>{record.title}</Table.Cell>
               <Table.Cell>{record.time}</Table.Cell>
-              <Button onClick={() => handleDelete(record.id)}>削除</Button>
+              <Table.Cell>
+                <Button onClick={() => handleEdit()} data-testid={`edit`}>
+                  編集
+                </Button>
+              </Table.Cell>
+              <Table.Cell>
+                <Button
+                  onClick={() => handleDelete(record.id)}
+                  data-testid={`delete-${record.id}`}
+                >
+                  削除
+                </Button>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
