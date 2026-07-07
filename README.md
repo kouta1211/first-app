@@ -1,75 +1,109 @@
-# React + TypeScript + Vite
+<div id="top"></div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 使用技術一覧
 
-Currently, two official plugins are available:
+<!-- シールド一覧 -->
+<!-- 該当するプロジェクトの中から任意のものを選ぶ-->
+<p style="display: inline">
+  <!-- フロントエンドのフレームワーク一覧 -->
+  <img src="https://img.shields.io/badge/-Node.js-000000.svg?logo=node.js&style=for-the-badge">
+  <img src="https://img.shields.io/badge/-React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 目次
 
-## React Compiler
+1. [プロジェクトについて](#プロジェクトについて)
+2. [環境](#環境)
+3. [ディレクトリ構成](#ディレクトリ構成)
+4. [開発環境構築](#開発環境構築)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 学習記録アプリ
 
-## Expanding the ESLint configuration
+タイトルと学習時間から成る学習記録を確認、新規登録、削除できるアプリケーション
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+<!-- プロジェクトについて -->
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## プロジェクトについて
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+//////
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+<p align="right">(<a href="#top">トップへ</a>)</p>
 
-```
+## 環境
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+<!-- 言語、フレームワーク、ミドルウェア、インフラの一覧とバージョンを記載 -->
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| 言語・フレームワーク | バージョン |
+| -------------------- | ---------- |
+| Node.js              | 16.17.0    |
+| React                | 18.2.0     |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+その他のパッケージのバージョンは pyproject.toml と package.json を参照してください
 
-```
+<p align="right">(<a href="#top">トップへ</a>)</p>
+
+## ディレクトリ構成
+
+<!-- Treeコマンドを使ってディレクトリ構成を記載 -->
+
+❯ tree -a -I "node_modules|.next|.git|.pytest_cache|static" -L 2
+.
+├── .devcontainer
+│ └── devcontainer.json
+├── .env
+├── .github
+│ ├── action
+│ ├── release-drafter.yml
+│ └── workflows
+├── .gitignore
+├── Makefile
+├── README.md
+├── backend
+│ ├── .vscode
+│ ├── application
+│ ├── docs
+│ ├── manage.py
+│ ├── output
+│ ├── poetry.lock
+│ ├── project
+│ └── pyproject.toml
+├── containers
+│ ├── django
+│ ├── front
+│ ├── mysql
+│ └── nginx
+├── docker-compose.yml
+├── frontend
+│ ├── .gitignore
+│ ├── README.md
+│ ├── **test**
+│ ├── components
+│ ├── features
+│ ├── next-env.d.ts
+│ ├── package-lock.json
+│ ├── package.json
+│ ├── pages
+│ ├── postcss.config.js
+│ ├── public
+│ ├── styles
+│ ├── tailwind.config.js
+│ └── tsconfig.json
+└── infra
+├── .gitignore
+├── docker-compose.yml
+├── main.tf
+├── network.tf
+└── variables.tf
+
+<p align="right">(<a href="#top">トップへ</a>)</p>
+
+## 開発環境構築
+
+自身のQiita記事を参考に構築
+
+### 動作確認
+
+https://first-app-ten-smoky.vercel.app/ にアクセスできるか確認
+アクセスできたら成功
+
+<p align="right">(<a href="#top">トップへ</a>)</p>
