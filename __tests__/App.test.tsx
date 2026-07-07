@@ -9,12 +9,14 @@ const mocks = vi.hoisted(() => ({
   mockGetAllRecords: vi.fn(),
   mockCreateRecord: vi.fn(),
   mockDeleteRecord: vi.fn(),
+  mockEditRecord: vi.fn(),
 }));
 
 vi.mock('@/lib/records', () => ({
   GetAllRecords: mocks.mockGetAllRecords,
   CreateRecord: mocks.mockCreateRecord,
   DeleteRecord: mocks.mockDeleteRecord,
+  EditRecord: mocks.mockEditRecord,
 }));
 
 const openModal = async () => {
@@ -25,7 +27,7 @@ const openModal = async () => {
     </Provider>
   );
 
-  await user.click(screen.getByRole('button', { name: '追加' }));
+  await user.click(screen.getByRole('button', { name: '新規登録' }));
   return user;
 };
 
@@ -60,7 +62,7 @@ describe('App', () => {
     expect(await screen.findByTestId('title')).toBeInTheDocument();
   });
 
-  test('追加ボタンが表示されること', async () => {
+  test('新規登録ボタンが表示されること', async () => {
     mocks.mockGetAllRecords.mockResolvedValue([]);
 
     render(
@@ -106,7 +108,7 @@ describe('App', () => {
     expect(rows).toHaveLength(5);
   });
 
-  test('モーダルのタイトルが合っている', async () => {
+  test('登録モーダルのタイトルが合っている', async () => {
     const user = userEvent.setup();
     mocks.mockGetAllRecords.mockResolvedValue([]);
 
@@ -116,7 +118,7 @@ describe('App', () => {
       </Provider>
     );
 
-    const addButton = screen.getByRole('button', { name: '追加' });
+    const addButton = screen.getByRole('button', { name: '新規登録' });
     await user.click(addButton);
 
     expect(
@@ -190,5 +192,56 @@ describe('App', () => {
     expect(screen.queryByText('TypeScript')).not.toBeInTheDocument();
 
     expect(mocks.mockDeleteRecord).toHaveBeenCalledWith(2);
+  });
+
+  test('編集モーダルのタイトルが合っている', async () => {
+    const user = userEvent.setup();
+    mocks.mockGetAllRecords.mockResolvedValue([new Record(1, 'React', 10)]);
+
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+
+    expect(await screen.findByText('React')).toBeInTheDocument();
+    const editButtons = screen.getAllByTestId(/edit-/);
+    await user.click(editButtons[0]);
+
+    expect(await screen.findByText('学習記録を編集')).toBeInTheDocument();
+  });
+
+  test('編集することができる', async () => {
+    const user = userEvent.setup();
+    mocks.mockGetAllRecords.mockResolvedValueOnce([new Record(1, 'React', 10)]);
+
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+
+    expect(await screen.findByText('React')).toBeInTheDocument();
+    const editButtons = screen.getAllByTestId(/edit-/);
+    await user.click(editButtons[0]);
+
+    const titleInput = screen.getByRole('textbox', {
+      name: 'タイトル',
+    });
+    const timeInput = screen.getByRole('spinbutton', {
+      name: '学習時間',
+    });
+
+    await user.clear(titleInput);
+    await user.type(titleInput, 'Typescript');
+    await user.clear(timeInput);
+    await user.type(timeInput, '20');
+    await user.click(
+      screen.getByRole('button', {
+        name: '更新',
+      })
+    );
+
+    expect(mocks.mockEditRecord).toHaveBeenCalledWith(1, 'Typescript', 20);
   });
 });

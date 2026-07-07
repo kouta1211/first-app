@@ -1,5 +1,6 @@
+import type { Record } from '@/domain/records';
 import { useMessage } from '@/hooks/useMessage';
-import { CreateRecord } from '@/lib/records';
+import { EditRecord } from '@/lib/records';
 import {
   Button,
   CloseButton,
@@ -9,6 +10,7 @@ import {
   Portal,
   Text,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -17,19 +19,33 @@ type FormData = {
 };
 
 type Props = {
+  record: Record;
   open: boolean;
-  onClose: () => void;
   onSuccess: () => void;
+  onClose: () => void;
 };
 
-export const AddRecordModal = ({ open, onClose, onSuccess }: Props) => {
+export const EditRecordModal = ({
+  record,
+  open,
+  onSuccess,
+  onClose,
+}: Props) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<FormData>();
+
   const { showMessage } = useMessage();
+
+  useEffect(() => {
+    reset({
+      title: record.title,
+      time: record.time,
+    });
+  }, [record, reset]);
 
   const onSubmit = async (data: FormData) => {
     if (!data.title) {
@@ -39,7 +55,7 @@ export const AddRecordModal = ({ open, onClose, onSuccess }: Props) => {
       showMessage({ title: '時間が入力されていません', type: 'error' });
       return;
     }
-    await CreateRecord(data.title, data.time);
+    await EditRecord(record.id, data.title, data.time);
     showMessage({
       title: '登録しました',
       type: 'success',
@@ -63,9 +79,7 @@ export const AddRecordModal = ({ open, onClose, onSuccess }: Props) => {
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
-              <Dialog.Title color="gray.800">
-                学習記録を入力してください
-              </Dialog.Title>
+              <Dialog.Title color="gray.800">学習記録を編集</Dialog.Title>
             </Dialog.Header>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Dialog.Body>
@@ -102,14 +116,14 @@ export const AddRecordModal = ({ open, onClose, onSuccess }: Props) => {
                   )}
                 </Field.Root>
               </Dialog.Body>
-              <Dialog.Footer justifyContent="flex-start">
+              <Dialog.Footer>
                 <Button
                   bg="teal.400"
                   color="white"
                   _hover={{ opacity: 0.8 }}
                   type="submit"
                 >
-                  登録
+                  更新
                 </Button>
               </Dialog.Footer>
             </form>

@@ -33,3 +33,21 @@ export async function DeleteRecord(id: number): Promise<void> {
     throw new Error(error.message);
   }
 }
+
+export async function EditRecord(
+  id: number,
+  title: string,
+  time: number
+): Promise<void> {
+  const { error } = await supabase
+    .from('study_records')
+    .update({
+      title,
+      time,
+    })
+    .eq('id', id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
